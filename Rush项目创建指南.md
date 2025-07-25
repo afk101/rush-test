@@ -217,9 +217,39 @@ node index.js
 
 ### 项目管理
 - `rush update` - 安装/更新所有依赖
+- `rush install` - 安装依赖（不更新版本）
 - `rush build` - 构建所有项目
 - `rush rebuild` - 清理并重新构建
 - `rush test` - 运行所有测试
+
+### rush install vs rush update 的区别
+
+#### rush install
+- **用途**: 根据现有的 lock 文件安装依赖，不会更新包版本
+- **场景**:
+  - 克隆项目后的首次安装
+  - CI/CD 环境中的依赖安装
+  - 确保团队成员使用相同版本的依赖
+- **特点**:
+  - 速度更快
+  - 保持版本一致性
+  - 不会修改 lock 文件
+
+#### rush update
+- **用途**: 重新解析依赖并更新到 package.json 允许的最新版本
+- **场景**:
+  - 添加新的依赖包后
+  - 想要更新依赖到最新兼容版本
+  - package.json 发生变化后
+- **特点**:
+  - 会更新 lock 文件
+  - 可能会安装新版本的依赖
+  - 耗时相对较长
+
+**推荐使用原则**:
+- 日常开发: 使用 `rush install`
+- 添加新依赖或更新依赖: 使用 `rush update`
+- 生产环境部署: 使用 `rush install` 确保版本一致
 
 ### 选择性操作
 - `rush build --to my-app` - 构建 my-app 及其依赖
