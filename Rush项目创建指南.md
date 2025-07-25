@@ -292,7 +292,6 @@ node index.js
 
 ## 下一步
 
-- 学习使用 `rush change` 管理变更日志
 - 配置 `rush publish` 进行包发布
 - 设置 CI/CD 流水线
 - 探索 Rush 的高级功能如子空间（subspaces）
