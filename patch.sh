@@ -25,36 +25,12 @@ rush build
 echo -e "\033[32m正在发布包...\033[0m"
 if rush publish --force --apply --publish --target-branch main --include-all; then
     echo -e "\033[32m✓ 包发布成功\033[0m"
+    echo -e "\033[31m新版本: $NEW_VERSION\033[0m"
 else
     echo -e "\033[31m✗ 包发布失败\033[0m"
     exit 1
 fi
 
-echo -e "\033[31m新版本: $NEW_VERSION\033[0m"
-
-echo -e "\033[32m正在推送代码到远程仓库...\033[0m"
-
-# Git add
-if git add .; then
-    echo -e "\033[32m✓ 文件添加成功\033[0m"
-else
-    echo -e "\033[31m✗ 文件添加失败\033[0m"
-    exit 1
-fi
-
-# Git commit
-if git commit -m "release: publish $NEW_VERSION"; then
-    echo -e "\033[32m✓ 代码提交成功\033[0m"
-else
-    echo -e "\033[31m✗ 代码提交失败\033[0m"
-    exit 1
-fi
-
-# Git push
-if git push; then
-    echo -e "\033[32m✓ 代码推送成功\033[0m"
-    echo -e "\033[32m🎉 发布流程全部完成！\033[0m"
-else
-    echo -e "\033[31m✗ 代码推送失败\033[0m"
-    exit 1
-fi
+echo ""
+echo -e "\033[31m请执行以下命令同步发布代码：\033[0m"
+echo -e "\033[32mgit add . && git commit -m \"release: publish $NEW_VERSION\" && git push\033[0m"
