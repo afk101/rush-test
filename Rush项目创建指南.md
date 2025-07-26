@@ -402,28 +402,66 @@ rush version # 自动更新所有包的版本号
 
 #### 第一步：配置包的发布属性
 
-在 `rush.json` 中为每个包设置发布标志：
+⚠️ **重要提醒：配置冲突风险**
 
+在 Rush 中，`shouldPublish` 和 `versionPolicyName` **不能同时使用**！这是一个常见的配置错误。
+
+**错误配置（会导致发布失败）**：
 ```json
 {
   "projects": [
     {
       "packageName": "my-utils",
       "projectFolder": "packages/utils",
-      "shouldPublish": true,  // 标记这个包需要发布
-      "versionPolicyName": "MyProject"
-    },
-    {
-      "packageName": "my-app",
-      "projectFolder": "packages/app",
-      "shouldPublish": false, // 这个包不发布（比如是内部应用）
-      "versionPolicyName": "MyProject"
+      "shouldPublish": true,        // ❌ 错误：不能和 versionPolicyName 同时使用
+      "versionPolicyName": "MyProject"  // ❌ 冲突
     }
   ]
 }
 ```
 
-**简单理解**：`shouldPublish: true` 就像给玩具贴上"可以卖"的标签。
+**正确配置方式**：
+
+**方式一：使用版本策略（推荐，适合统一版本管理）**
+```json
+{
+  "projects": [
+    {
+      "packageName": "my-utils",
+      "projectFolder": "packages/utils",
+      "versionPolicyName": "MyProject"  // ✅ 使用版本策略，自动管理发布
+    },
+    {
+      "packageName": "my-app",
+      "projectFolder": "packages/app",
+      "versionPolicyName": "MyProject"  // ✅ 所有包都会一起发布
+    }
+  ]
+}
+```
+
+**方式二：使用独立发布标志（适合独立版本管理）**
+```json
+{
+  "projects": [
+    {
+      "packageName": "my-utils",
+      "projectFolder": "packages/utils",
+      "shouldPublish": true   // ✅ 标记需要发布
+    },
+    {
+      "packageName": "my-app",
+      "projectFolder": "packages/app",
+      "shouldPublish": false  // ✅ 不发布（内部应用）
+    }
+  ]
+}
+```
+
+**如何选择**：
+- 如果使用统一版本管理（lockstep）→ 使用 `versionPolicyName`
+- 如果使用独立版本管理 → 使用 `shouldPublish`
+
 
 #### 第二步：配置 npm 认证
 

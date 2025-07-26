@@ -339,13 +339,11 @@
     {
       "packageName": "my-utils",
       "projectFolder": "packages/utils",
-      "shouldPublish": true,
       "versionPolicyName": "MyProject"
     },
     {
       "packageName": "my-app",
       "projectFolder": "packages/app",
-      "shouldPublish": true,
       "versionPolicyName": "MyProject"
     }
     // {
