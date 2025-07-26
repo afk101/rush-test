@@ -493,34 +493,7 @@ rush build
 
 # 5. 发布到 npm
 rush publish
-```
-
-### 高级配置选项
-
-#### 配置发布前检查
-
-在 `rush.json` 中添加发布策略：
-
-```json
-{
-  "gitPolicy": {
-    "versionBumpCommitMessage": "发布版本 [skip ci]",
-    "changeLogUpdateCommitMessage": "更新变更日志 [skip ci]"
-  }
-}
-```
-
-#### 配置发布范围
-
-```bash
-# 只发布特定的包
-rush publish --include-all
-
-# 发布到特定的 npm registry
-rush publish --registry https://your-private-registry.com
-
-# 预览发布（不实际发布）
-rush publish --dry-run
+rush publish --force --apply --publish --target-branch main
 ```
 
 ### 实际例子演示
