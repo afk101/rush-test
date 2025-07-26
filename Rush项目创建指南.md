@@ -518,44 +518,6 @@ rush publish（发布不了）
 rush publish --force --apply --publish --target-branch main
 ```
 
-### 实际例子演示
-
-假设你的项目结构：
-```
-packages/
-├── utils/     (工具库，需要发布)
-├── app/       (应用程序，不发布)
-└── shared/    (共享组件，需要发布)
-```
-
-**配置文件**：
-```json
-{
-  "projects": [
-    {
-      "packageName": "my-utils",
-      "projectFolder": "packages/utils",
-      "shouldPublish": true
-    },
-    {
-      "packageName": "my-app",
-      "projectFolder": "packages/app",
-      "shouldPublish": false
-    },
-    {
-      "packageName": "my-shared",
-      "projectFolder": "packages/shared",
-      "shouldPublish": true
-    }
-  ]
-}
-```
-
-**发布结果**：
-- ✅ my-utils@1.0.1 发布成功
-- ⏭️ my-app 跳过发布
-- ✅ my-shared@1.0.1 发布成功
-
 ### 常见问题和解决方案
 
 #### 问题1：发布失败 - 权限不足
