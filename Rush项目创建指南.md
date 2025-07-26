@@ -379,9 +379,205 @@ rush version # 自动更新所有包的版本号
 - 即使使用统一版本，仍建议使用 `rush change` 记录变更日志
 - `mainProject` 字段指定主要的 CHANGELOG.md 存放位置
 
+## Rush Publish 包发布配置
+
+### 什么是 rush publish？
+
+将你的包发布到npm。
+
+### 为什么需要 rush publish？（解决什么问题）
+
+**问题场景**：
+- 你有 10 个包要发布到 npm
+- 手动发布：需要进入每个包目录，运行 `npm publish`，重复 10 次
+- 容易出错：忘记某个包、版本号不一致、发布顺序错误（可能有依赖关系）
+
+**Rush publish 的解决方案**：
+- 一个命令发布所有包
+- 自动处理依赖顺序
+- 确保版本一致性
+- 提供发布前检查
+
+### 基础配置步骤
+
+#### 第一步：配置包的发布属性
+
+在 `rush.json` 中为每个包设置发布标志：
+
+```json
+{
+  "projects": [
+    {
+      "packageName": "my-utils",
+      "projectFolder": "packages/utils",
+      "shouldPublish": true,  // 标记这个包需要发布
+      "versionPolicyName": "MyProject"
+    },
+    {
+      "packageName": "my-app",
+      "projectFolder": "packages/app",
+      "shouldPublish": false, // 这个包不发布（比如是内部应用）
+      "versionPolicyName": "MyProject"
+    }
+  ]
+}
+```
+
+**简单理解**：`shouldPublish: true` 就像给玩具贴上"可以卖"的标签。
+
+#### 第二步：配置 npm 认证
+
+```bash
+# 登录到 npm（只需要做一次）
+npm login
+
+# 验证登录状态
+npm whoami
+```
+
+**简单理解**：这就像在玩具店注册账号，证明你有权利上架玩具。
+
+#### 第三步：基本发布流程
+
+```bash
+# 1. 确保所有变更都已提交
+git add .
+git commit -m "准备发布 v1.0.1"
+
+# 2. 记录变更（如果使用变更日志）
+rush change
+
+# 3. 更新版本号
+rush version
+
+# 4. 构建所有包
+rush build
+
+# 5. 发布到 npm
+rush publish
+```
+
+### 高级配置选项
+
+#### 配置发布前检查
+
+在 `rush.json` 中添加发布策略：
+
+```json
+{
+  "gitPolicy": {
+    "versionBumpCommitMessage": "发布版本 [skip ci]",
+    "changeLogUpdateCommitMessage": "更新变更日志 [skip ci]"
+  }
+}
+```
+
+#### 配置发布范围
+
+```bash
+# 只发布特定的包
+rush publish --include-all
+
+# 发布到特定的 npm registry
+rush publish --registry https://your-private-registry.com
+
+# 预览发布（不实际发布）
+rush publish --dry-run
+```
+
+### 实际例子演示
+
+假设你的项目结构：
+```
+packages/
+├── utils/     (工具库，需要发布)
+├── app/       (应用程序，不发布)
+└── shared/    (共享组件，需要发布)
+```
+
+**配置文件**：
+```json
+{
+  "projects": [
+    {
+      "packageName": "my-utils",
+      "projectFolder": "packages/utils",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "my-app",
+      "projectFolder": "packages/app",
+      "shouldPublish": false
+    },
+    {
+      "packageName": "my-shared",
+      "projectFolder": "packages/shared",
+      "shouldPublish": true
+    }
+  ]
+}
+```
+
+**发布结果**：
+- ✅ my-utils@1.0.1 发布成功
+- ⏭️ my-app 跳过发布
+- ✅ my-shared@1.0.1 发布成功
+
+### 常见问题和解决方案
+
+#### 问题1：发布失败 - 权限不足
+```bash
+# 解决方案：检查 npm 登录状态
+npm whoami
+npm login
+```
+
+#### 问题2：包已存在相同版本
+```bash
+# 解决方案：更新版本号
+rush version
+```
+
+#### 问题3：依赖包还未发布
+**Rush 自动解决**：会按照依赖顺序发布，先发布 utils，再发布依赖 utils 的其他包。
+
+### 最佳实践建议
+
+1. **发布前检查清单**：
+   - ✅ 代码已提交到 Git
+   - ✅ 所有测试通过
+   - ✅ 版本号已更新
+   - ✅ CHANGELOG 已更新
+
+2. **使用 CI/CD 自动发布**：
+   ```yaml
+   # GitHub Actions 示例
+   - name: 发布包
+     run: |
+       npm ci
+       rush install
+       rush build
+       rush publish
+   ```
+
+3. **私有包发布**：
+   ```bash
+   # 发布到私有 registry
+   rush publish --registry https://npm.your-company.com
+   ```
+
+### 总结（用最简单的话）
+
+`rush publish` 就像是一个智能的"快递员"：
+- 知道哪些包需要发货（shouldPublish: true）
+- 按正确顺序发货（依赖关系）
+- 确保包装完整（构建检查）
+- 一次性发送所有包（批量发布）
+
+这样，你就不需要手动管理每个包的发布了，Rush 帮你自动化了整个流程！
+
 ## 下一步
 
-- 配置 `rush publish` 进行包发布
 - 设置 CI/CD 流水线
 - 探索 Rush 的高级功能如子空间（subspaces）
 
