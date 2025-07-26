@@ -22,7 +22,7 @@ NEW_VERSION=$(cat common/config/rush/version-policies.json | grep '"version"' | 
 rush build
 
 # 发布包
-echo -e "\033[31m正在发布包...\033[0m"
+echo -e "\033[32m正在发布包...\033[0m"
 if rush publish --force --apply --publish --target-branch main --include-all; then
     echo -e "\033[32m✓ 包发布成功\033[0m"
 else
