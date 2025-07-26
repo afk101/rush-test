@@ -14,7 +14,7 @@
     "policyName": "MyProject",
     "version": "1.0.0",
     "nextBump": "patch",
-    "mainProject": "my-app"
+    "mainProject": "@gdluckk/my-app"
   }
   // {
   //   /**

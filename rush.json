@@ -337,12 +337,12 @@
    */
   "projects": [
     {
-      "packageName": "my-utils",
+      "packageName": "@gdluckk/my-utils",
       "projectFolder": "packages/utils",
       "versionPolicyName": "MyProject"
     },
     {
-      "packageName": "my-app",
+      "packageName": "@gdluckk/my-app",
       "projectFolder": "packages/app",
       "versionPolicyName": "MyProject"
     }

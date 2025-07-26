@@ -10,7 +10,7 @@ importers:
 
   ../../packages/app:
     dependencies:
-      my-utils:
+      '@gdluckk/my-utils':
         specifier: workspace:*
         version: link:../utils
 

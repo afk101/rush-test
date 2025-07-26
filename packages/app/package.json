@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "@gdluckk/my-app",
   "version": "1.0.0",
   "main": "index.js",
   "type":"module",
@@ -12,6 +12,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "my-utils": "workspace:*"
+    "@gdluckk/my-utils": "workspace:*"
   }
 }
