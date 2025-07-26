@@ -2,6 +2,12 @@
   "name": "@gdluckk/my-app",
   "entries": [
     {
+      "version": "1.0.9",
+      "tag": "@gdluckk/my-app_v1.0.9",
+      "date": "Sat, 26 Jul 2025 08:36:03 GMT",
+      "comments": {}
+    },
+    {
       "version": "1.0.8",
       "tag": "@gdluckk/my-app_v1.0.8",
       "date": "Sat, 26 Jul 2025 08:10:58 GMT",
