@@ -1,3 +1,3 @@
 export const add = (a, b) => a + b
 // Updated
-// 4
+// 5
