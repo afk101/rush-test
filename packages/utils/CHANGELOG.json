@@ -2,6 +2,12 @@
   "name": "@gdluckk/my-utils",
   "entries": [
     {
+      "version": "1.0.10",
+      "tag": "@gdluckk/my-utils_v1.0.10",
+      "date": "Sat, 26 Jul 2025 08:40:59 GMT",
+      "comments": {}
+    },
+    {
       "version": "1.0.9",
       "tag": "@gdluckk/my-utils_v1.0.9",
       "date": "Sat, 26 Jul 2025 08:36:03 GMT",

@@ -339,12 +339,14 @@
     {
       "packageName": "@gdluckk/my-utils",
       "projectFolder": "packages/utils",
-      "versionPolicyName": "MyProject"
+      "versionPolicyName": "MyProject",
+      "shouldPublish": true
     },
     {
       "packageName": "@gdluckk/my-app",
       "projectFolder": "packages/app",
-      "versionPolicyName": "MyProject"
+      "versionPolicyName": "MyProject",
+      "shouldPublish": true
     }
     // {
     //   /**
