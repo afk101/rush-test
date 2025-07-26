@@ -1,6 +1,6 @@
 {
   "name": "@gdluckk/my-app",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "main": "index.js",
   "type":"module",
   "scripts": {
