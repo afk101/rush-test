@@ -348,36 +348,19 @@ my-tools: 1.0.0
     {
       "packageName": "my-utils",
       "projectFolder": "packages/utils",
-      "versionPolicyName": "MyProject"
+      "versionPolicyName": "MyProject",
+      "shouldPublish": true
     },
     {
       "packageName": "my-app",
       "projectFolder": "packages/app",
-      "versionPolicyName": "MyProject"
+      "versionPolicyName": "MyProject",
+      // 配合rush publish 的--include-all使用，这个参数会包括所有配置了shouldPublish的包
+      "shouldPublish": true
     }
   ]
 }
 ```
-
-#### 3. 版本更新方式
-```bash
-# 方式一：手动修改版本号
-# 直接编辑 version-policies.json 中的 version 和 nextBump 字段
-
-# 方式二：仍然使用 rush change（推荐）
-rush change  # 记录变更信息
-rush version # 自动更新所有包的版本号
-```
-
-**统一版本的优势**:
-- ✅ 避免包之间的版本依赖冲突
-- ✅ 简化发布流程
-- ✅ 版本号语义清晰
-- ✅ 适合紧密耦合的包集合
-
-**注意事项**:
-- 即使使用统一版本，仍建议使用 `rush change` 记录变更日志
-- `mainProject` 字段指定主要的 CHANGELOG.md 存放位置
 
 ## Rush Publish 包发布配置
 
@@ -402,65 +385,9 @@ rush version # 自动更新所有包的版本号
 
 #### 第一步：配置包的发布属性
 
-⚠️ **重要提醒：配置冲突风险**
-
-在 Rush 中，`shouldPublish` 和 `versionPolicyName` **不能同时使用**！这是一个常见的配置错误。
-
-**错误配置（会导致发布失败）**：
-```json
-{
-  "projects": [
-    {
-      "packageName": "my-utils",
-      "projectFolder": "packages/utils",
-      "shouldPublish": true,        // ❌ 错误：不能和 versionPolicyName 同时使用
-      "versionPolicyName": "MyProject"  // ❌ 冲突
-    }
-  ]
-}
-```
-
-**正确配置方式**：
-
-**方式一：使用版本策略（推荐，适合统一版本管理）**
-```json
-{
-  "projects": [
-    {
-      "packageName": "my-utils",
-      "projectFolder": "packages/utils",
-      "versionPolicyName": "MyProject"  // ✅ 使用版本策略，自动管理发布
-    },
-    {
-      "packageName": "my-app",
-      "projectFolder": "packages/app",
-      "versionPolicyName": "MyProject"  // ✅ 所有包都会一起发布
-    }
-  ]
-}
-```
-
-**方式二：使用独立发布标志（适合独立版本管理）**
-```json
-{
-  "projects": [
-    {
-      "packageName": "my-utils",
-      "projectFolder": "packages/utils",
-      "shouldPublish": true   // ✅ 标记需要发布
-    },
-    {
-      "packageName": "my-app",
-      "projectFolder": "packages/app",
-      "shouldPublish": false  // ✅ 不发布（内部应用）
-    }
-  ]
-}
-```
-
 **如何选择**：
-- 如果使用统一版本管理（lockstep）→ 使用 `versionPolicyName`
-- 如果使用独立版本管理 → 使用 `shouldPublish`
+- 如果使用统一版本管理（lockstep）→ 使用 `versionPolicyName` 配合 rush version --bump
+- 如果使用独立版本管理 使用rush change，然后修改type
 
 
 #### 第二步：配置 npm 认证
@@ -473,18 +400,20 @@ npm login
 npm whoami
 ```
 
-**简单理解**：这就像在玩具店注册账号，证明你有权利上架玩具。
 
 #### 第三步：基本发布流程  
 common/config/rush/.npmrc-publish中将  
+```json
 # Provide an authentication token for the above registry URL:  
 //registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}  
+```
 最后一行这个的注释打开，即删除//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}最前面的#号  
 意思是每次publish是需要你的身份令牌的  
 如何查看自己的身份令牌？  
 ```bash
  cat ~/.npmrc
 ```
+结果：  
 ```bash
 home=https://www.npmjs.org
 registry=https://registry.npmjs.org/
@@ -498,17 +427,21 @@ registry=https://registry.npmjs.org/
  export NPM_AUTH_TOKEN=xxx
 ```
 也可以写一个脚本，自动设置  
+`单独发包`：  
+git add .  
+git commit -m 'xxx'  
+rush change  
+rush build  
+rush publish --force --apply --publish --target-branch main  
 
-```bash
-# 1. 确保所有变更都已提交
-git add .
-git commit -m "准备发布 v1.0.1"
-
-# 2. 记录变更（如果使用变更日志）
-rush change
-# 3. 更新版本号（如果不执行，那么发布的包，只会发布修改的包，具体是通过rush change记录的，而且需要手动修改新产生的json文件的type为patch等等（none这种type，发布不会改版本），这种方式会导致所有包的版本不一致)  
-# 下面的指令可以统一控制版本  
+`统一管理包版本`：  
 rush version --bump  
+rush build  
+git add .  
+git commit -m 'xxx'  
+rush publish --force --apply --publish --target-branch main --include-all  
+
+对rush version --bump的介绍：  
 # 这个指令会参照common/config/rush/version-policies.json的配置  
 # 例如如下  
 ```json
@@ -521,13 +454,7 @@ rush version --bump
 ```
 原本是这样的，执行命令`rush version --bump`之后，version会改变，具体如何改根据nextBump来决定，同时会修改所有包的package.json的版本号统一为这个version，如果不指定"mainProject": "@gdluckk/my-app"这个，所有的包都会生成一份CHANGELOG.md和CHANGELOG.json文件。如果指定了主要的项目，那么这两个文件只会在指定的包内部生成  
 
-# 4. 构建所有包
-rush build
 
-# 5. 发布到 npm
-rush publish（发布不了）
-rush publish --force --apply --publish --target-branch main
-```
 
 ### 常见问题和解决方案
 
@@ -538,53 +465,8 @@ npm whoami
 npm login
 ```
 
-#### 问题2：包已存在相同版本
-```bash
-# 解决方案：更新版本号
-rush version
-```
-
-#### 问题3：依赖包还未发布
-**Rush 自动解决**：会按照依赖顺序发布，先发布 utils，再发布依赖 utils 的其他包。
-
-### 最佳实践建议
-
-1. **发布前检查清单**：
-   - ✅ 代码已提交到 Git
-   - ✅ 所有测试通过
-   - ✅ 版本号已更新
-   - ✅ CHANGELOG 已更新
-
-2. **使用 CI/CD 自动发布**：
-   ```yaml
-   # GitHub Actions 示例
-   - name: 发布包
-     run: |
-       npm ci
-       rush install
-       rush build
-       rush publish
-   ```
-
-3. **私有包发布**：
+ **私有包发布**：
    ```bash
    # 发布到私有 registry
    rush publish --registry https://npm.your-company.com
    ```
-
-### 总结（用最简单的话）
-
-`rush publish` 就像是一个智能的"快递员"：
-- 知道哪些包需要发货（shouldPublish: true）
-- 按正确顺序发货（依赖关系）
-- 确保包装完整（构建检查）
-- 一次性发送所有包（批量发布）
-
-这样，你就不需要手动管理每个包的发布了，Rush 帮你自动化了整个流程！
-
-## 下一步
-
-- 设置 CI/CD 流水线
-- 探索 Rush 的高级功能如子空间（subspaces）
-
-这样，你就成功创建了一个基本的 Rush monorepo 项目！
