@@ -13,9 +13,8 @@
     "definitionName": "lockStepVersion",
     "policyName": "MyProject",
     "version": "1.0.8",
-    "nextBump": "patch",
-    "mainProject": "@gdluckk/my-app"
-  }
+    "nextBump": "patch"
+    }
   // {
   //   /**
   //    * (Required) Indicates the kind of version policy being defined ("lockStepVersion" or "individualVersion").
