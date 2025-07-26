@@ -32,7 +32,7 @@ fi
 
 echo -e "\033[31m新版本: $NEW_VERSION\033[0m"
 
-echo -e "\033[31m正在推送代码到远程仓库...\033[0m"
+echo -e "\033[32m正在推送代码到远程仓库...\033[0m"
 
 # Git add
 if git add .; then
