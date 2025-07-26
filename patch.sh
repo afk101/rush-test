@@ -25,6 +25,7 @@ rush build
 rush publish --force --apply --publish --target-branch main --include-all
 
 echo -e "\033[31m新版本: $NEW_VERSION\033[0m"
+echo -e "正在推送代码到远程仓库..."
 git add .
 git commit -m "release: publish $NEW_VERSION"
 git push
