@@ -290,6 +290,95 @@ node index.js
 4. **依赖管理**: 定期运行 `rush update` 保持依赖同步
 5. **Git 提交**: 提交前运行 `rush build` 确保所有项目都能正常构建
 
+## 版本管理策略选择
+
+Rush 支持两种版本管理策略，你可以根据项目需求选择：
+
+### 策略一：独立版本管理（默认）
+
+每个包独立管理版本号：
+```
+my-utils: 1.0.0
+my-app: 2.1.0
+my-tools: 0.5.0
+```
+
+**适用场景**:
+- 包功能差异较大
+- 包的发布周期不同
+- 需要精细化的版本控制
+
+**使用方式**: 使用 `rush change` 单独管理每个包的变更
+
+### 策略二：统一版本管理（lockstep）
+
+所有包共享同一版本号：
+```
+my-utils: 1.0.0
+my-app: 1.0.0
+my-tools: 1.0.0
+```
+
+**适用场景**:
+- 包之间联系紧密
+- 希望简化版本管理
+- 统一发布周期
+
+**配置步骤**:
+
+#### 1. 配置版本策略
+编辑 `common/config/rush/version-policies.json`:
+```json
+[
+  {
+    "definitionName": "lockStepVersion",
+    "policyName": "MyProject",
+    "version": "1.0.0",
+    "nextBump": "patch",
+    // 所有的变更日志都会写入 packages/app/CHANGELOG.md
+    "mainProject": "my-app"
+  }
+]
+```
+
+#### 2. 在 rush.json 中应用策略
+```json
+{
+  "projects": [
+    {
+      "packageName": "my-utils",
+      "projectFolder": "packages/utils",
+      "versionPolicyName": "MyProject"
+    },
+    {
+      "packageName": "my-app",
+      "projectFolder": "packages/app",
+      "versionPolicyName": "MyProject"
+    }
+  ]
+}
+```
+
+#### 3. 版本更新方式
+```bash
+# 方式一：手动修改版本号
+# 直接编辑 version-policies.json 中的 version 和 nextBump 字段
+
+# 方式二：仍然使用 rush change（推荐）
+rush change  # 记录变更信息
+rush version # 自动更新所有包的版本号
+```
+
+**统一版本的优势**:
+- ✅ 避免包之间的版本依赖冲突
+- ✅ 简化发布流程
+- ✅ 版本号语义清晰
+- ✅ 适合紧密耦合的包集合
+
+**注意事项**:
+- 即使使用统一版本，仍建议使用 `rush change` 记录变更日志
+- `mainProject` 字段指定主要的 CHANGELOG.md 存放位置
+
 ## 下一步
 
 - 配置 `rush publish` 进行包发布
