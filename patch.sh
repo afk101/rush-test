@@ -24,4 +24,4 @@ rush build
 # 发布包
 rush publish --force --apply --publish --target-branch main --include-all
 
-echo "新版本: $NEW_VERSION"
+echo -e "\033[31m新版本: $NEW_VERSION\033[0m"
