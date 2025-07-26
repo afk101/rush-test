@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@gdluckk/my-app",
+      "comment": "rush change",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@gdluckk/my-app"
+}

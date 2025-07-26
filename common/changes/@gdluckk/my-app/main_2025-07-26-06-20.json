@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@gdluckk/my-app",
+      "comment": "feat: Initial release",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@gdluckk/my-app"
+}
