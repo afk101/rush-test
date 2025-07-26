@@ -506,9 +506,20 @@ git commit -m "准备发布 v1.0.1"
 
 # 2. 记录变更（如果使用变更日志）
 rush change
-#  如果要升级版本，注意change文档里面的type设置，none不会发布  
-# 3. 更新版本号（暂时未知作用，可以跳过）
-rush version
+# 3. 更新版本号（如果不执行，那么发布的包，只会发布修改的包，具体是通过rush change记录的，而且需要手动修改新产生的json文件的type为patch等等（none这种type，发布不会改版本），这种方式会导致所有包的版本不一致)  
+# 下面的指令可以统一控制版本  
+rush version --bump  
+# 这个指令会参照common/config/rush/version-policies.json的配置  
+# 例如如下  
+```json
+{
+    "definitionName": "lockStepVersion",
+    "policyName": "MyProject",
+    "version": "1.0.6",
+    "nextBump": "patch"
+    }
+```
+原本是这样的，执行命令`rush version --bump`之后，version会改变，具体如何改根据nextBump来决定，同时会修改所有包的package.json的版本号统一为这个version，如果不指定"mainProject": "@gdluckk/my-app"这个，所有的包都会生成一份CHANGELOG.md和CHANGELOG.json文件。如果指定了主要的项目，那么这两个文件只会在指定的包内部生成
 
 # 4. 构建所有包
 rush build

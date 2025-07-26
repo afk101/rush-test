@@ -12,8 +12,9 @@
   {
     "definitionName": "lockStepVersion",
     "policyName": "MyProject",
-    "version": "1.0.0",
-    "nextBump": "patch"
+    "version": "1.0.8",
+    "nextBump": "patch",
+    "mainProject": "@gdluckk/my-app"
   }
   // {
   //   /**
