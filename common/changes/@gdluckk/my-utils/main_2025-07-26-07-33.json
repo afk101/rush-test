@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@gdluckk/my-utils",
+      "comment": "test",
+      "type": "none"
+    }
+  ],
+  "packageName": "@gdluckk/my-utils"
+}
