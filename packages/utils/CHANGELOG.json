@@ -1,0 +1,17 @@
+{
+  "name": "@gdluckk/my-utils",
+  "entries": [
+    {
+      "version": "1.0.1",
+      "tag": "@gdluckk/my-utils_v1.0.1",
+      "date": "Sat, 26 Jul 2025 07:28:22 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "patch"
+          }
+        ]
+      }
+    }
+  ]
+}
