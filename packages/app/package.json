@@ -13,5 +13,8 @@
   "description": "",
   "dependencies": {
     "@gdluckk/my-utils": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
