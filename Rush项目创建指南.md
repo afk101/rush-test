@@ -519,7 +519,7 @@ rush version --bump
     "nextBump": "patch"
     }
 ```
-原本是这样的，执行命令`rush version --bump`之后，version会改变，具体如何改根据nextBump来决定，同时会修改所有包的package.json的版本号统一为这个version，如果不指定"mainProject": "@gdluckk/my-app"这个，所有的包都会生成一份CHANGELOG.md和CHANGELOG.json文件。如果指定了主要的项目，那么这两个文件只会在指定的包内部生成
+原本是这样的，执行命令`rush version --bump`之后，version会改变，具体如何改根据nextBump来决定，同时会修改所有包的package.json的版本号统一为这个version，如果不指定"mainProject": "@gdluckk/my-app"这个，所有的包都会生成一份CHANGELOG.md和CHANGELOG.json文件。如果指定了主要的项目，那么这两个文件只会在指定的包内部生成  
 
 # 4. 构建所有包
 rush build
