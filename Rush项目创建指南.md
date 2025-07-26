@@ -475,7 +475,29 @@ npm whoami
 
 **简单理解**：这就像在玩具店注册账号，证明你有权利上架玩具。
 
-#### 第三步：基本发布流程
+#### 第三步：基本发布流程  
+common/config/rush/.npmrc-publish中将  
+# Provide an authentication token for the above registry URL:  
+//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}  
+最后一行这个的注释打开，即删除//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}最前面的#号  
+意思是每次publish是需要你的身份令牌的  
+如何查看自己的身份令牌？  
+```bash
+ cat ~/.npmrc
+```
+```bash
+home=https://www.npmjs.org
+registry=https://registry.npmjs.org/
+@q:registry=https://registry.qnpm.qihoo.net
+//registry.qnpm.qihoo.net/:_authToken=xxx
+//registry.npmjs.org/:_authToken=xxx
+```
+上面的xxx就是  
+执行终端需要设置
+```bash
+ export NPM_AUTH_TOKEN=xxx
+```
+也可以写一个脚本，自动设置  
 
 ```bash
 # 1. 确保所有变更都已提交
@@ -484,15 +506,15 @@ git commit -m "准备发布 v1.0.1"
 
 # 2. 记录变更（如果使用变更日志）
 rush change
-
-# 3. 更新版本号
+#  如果要升级版本，注意change文档里面的type设置，none不会发布  
+# 3. 更新版本号（暂时未知作用，可以跳过）
 rush version
 
 # 4. 构建所有包
 rush build
 
 # 5. 发布到 npm
-rush publish
+rush publish（发布不了）
 rush publish --force --apply --publish --target-branch main
 ```
 
