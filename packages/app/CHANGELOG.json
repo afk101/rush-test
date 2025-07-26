@@ -2,6 +2,18 @@
   "name": "@gdluckk/my-app",
   "entries": [
     {
+      "version": "1.0.4",
+      "tag": "@gdluckk/my-app_v1.0.4",
+      "date": "Sat, 26 Jul 2025 07:39:13 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@gdluckk/my-utils\" to `1.0.2`"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.3",
       "tag": "@gdluckk/my-app_v1.0.3",
       "date": "Sat, 26 Jul 2025 07:28:22 GMT",
