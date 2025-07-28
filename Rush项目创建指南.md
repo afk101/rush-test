@@ -532,8 +532,10 @@ echo 'QNPM_AUTH_TOKEN=your-private-token-here' > .env
   "version": "1.0.0",
   "publishConfig": {
     "access": "public",
+    // 私有源
     "registry":"https://registry.qnpm.qihoo.net"
   },
+  // 维护者信息
   "maintainers":[
     {
       "email": "chenguangdi@360.cn",
@@ -555,4 +557,5 @@ echo 'QNPM_AUTH_TOKEN=your-private-token-here' > .env
     }
   ]
 }
-```
+```  
+发布命令还是之前的
