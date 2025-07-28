@@ -1,6 +1,24 @@
 {
-  "name": "@gdluckk/my-utils",
+  "name": "@q/my-utils",
   "entries": [
+    {
+      "version": "1.0.30",
+      "tag": "@q/my-utils_v1.0.30",
+      "date": "Mon, 28 Jul 2025 03:11:41 GMT",
+      "comments": {}
+    },
+    {
+      "version": "1.0.29",
+      "tag": "@q/my-utils_v1.0.29",
+      "date": "Mon, 28 Jul 2025 03:10:18 GMT",
+      "comments": {}
+    },
+    {
+      "version": "1.0.28",
+      "tag": "@q/my-utils_v1.0.28",
+      "date": "Mon, 28 Jul 2025 03:06:24 GMT",
+      "comments": {}
+    },
     {
       "version": "1.0.27",
       "tag": "@gdluckk/my-utils_v1.0.27",

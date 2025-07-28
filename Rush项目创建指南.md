@@ -466,8 +466,93 @@ npm whoami
 npm login
 ```
 
- **私有包发布**：
-   ```bash
-   # 发布到私有 registry
-   rush publish --registry https://npm.your-company.com
-   ```
+### 私有包发布配置
+
+私有包发布是指将包发布到企业内部的 npm registry，而不是公共的 npmjs.org。这在企业环境中非常常见，用于保护代码隐私和控制包的访问权限。
+
+#### 配置步骤
+
+##### 第一步：配置私有 registry
+
+**方法一：全局配置（推荐用于开发环境）**
+查看Qnpm的配置方式    
+[Qnpm](https://coding.qihoo.net/qnpm)
+
+**方法二：项目级配置（推荐用于生产环境）**
+
+在项目根目录创建 `.npmrc` 文件：
+```bash
+# .npmrc
+@q:registry=https://registry.qnpm.qihoo.net
+registry=https://registry.npmjs.org
+
+legacy-peer-deps=true
+```
+
+##### 第二步：配置
+
+**获取认证 Token**  
+确保登录到了Qnpm（一次性）  
+```bash
+qnpm login  
+# 访问下面链接获取密码  
+https://qnpm.qihoo.net/password/
+```
+
+**配置 Rush 发布认证**
+
+编辑 `common/config/rush/.npmrc-publish` 文件：
+```bash
+# 私有 registry 配置
+registry=https://registry.qnpm.qihoo.net/
+//registry.qnpm.qihoo.net/:_authToken=${QNPM_AUTH_TOKEN}
+```
+这里定义了环境变量QNPM_AUTH_TOKEN  
+在.env文件中写入这个变量以及你的token（如何获取token上面有写）
+
+**设置环境变量**
+```bash
+# 方法一：临时设置
+export QNPM_AUTH_TOKEN=your-private-token-here
+
+# 方法二：写入 shell 配置文件（推荐）
+echo 'export QNPM_AUTH_TOKEN=your-private-token-here' >> ~/.zshrc
+source ~/.zshrc
+
+# 方法三：使用 .env 文件（团队协作推荐）
+echo 'QNPM_AUTH_TOKEN=your-private-token-here' > .env
+```
+
+##### 第三步：配置包的发布属性
+
+**修改 package.json 添加私有源信息**
+```json
+{
+  "name": "@q/my-utils",
+  "version": "1.0.0",
+  "publishConfig": {
+    "access": "public",
+    "registry":"https://registry.qnpm.qihoo.net"
+  },
+  "maintainers":[
+    {
+      "email": "chenguangdi@360.cn",
+      "name": "chenguangdi"
+    }
+  ]
+}
+```
+
+**在 rush.json 中配置发布属性**
+```json
+{
+  "projects": [
+    {
+      "packageName": "@q/my-utils",
+      "projectFolder": "packages/utils",
+      "shouldPublish": true,
+      "versionPolicyName": "MyProject"
+    }
+  ]
+}
+```

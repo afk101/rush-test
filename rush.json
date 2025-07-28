@@ -337,13 +337,13 @@
    */
   "projects": [
     {
-      "packageName": "@gdluckk/my-utils",
+      "packageName": "@q/my-utils",
       "projectFolder": "packages/utils",
       "versionPolicyName": "MyProject",
       "shouldPublish": true
     },
     {
-      "packageName": "@gdluckk/my-app",
+      "packageName": "@q/my-app",
       "projectFolder": "packages/app",
       "versionPolicyName": "MyProject",
       "shouldPublish": true

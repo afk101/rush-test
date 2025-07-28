@@ -1,6 +1,6 @@
 {
-  "name": "@gdluckk/my-app",
-  "version": "1.0.27",
+  "name": "@q/my-app",
+  "version": "1.0.30",
   "main": "index.js",
   "type":"module",
   "scripts": {
@@ -12,9 +12,16 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@gdluckk/my-utils": "workspace:*"
+    "@q/my-utils": "workspace:*"
   },
   "publishConfig": {
-    "access": "public"
-  }
+    "access": "public",
+    "registry":"https://registry.qnpm.qihoo.net"
+  },
+  "maintainers":[
+    {
+      "email": "chenguangdi@360.cn",
+      "name": "chenguangdi"
+    }
+  ]
 }
