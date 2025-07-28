@@ -8,7 +8,7 @@ Rush 是微软开发的一个可扩展的 monorepo 管理工具，专门用于�
 
 在开始之前，请确保你的系统已安装：
 
-- **Node.js**: 版本 >= 18.20.3 < 19.0.0 或 >= 20.14.0 < 21.0.0
+- **Node.js**: 版本有要求
 - **Git**: 用于版本控制
 - **npm**: Node.js 自带的包管理器
 
@@ -54,7 +54,7 @@ my-rush-project/
 └── .gitignore
 ```
 
-## 第五步：配置 rush.json
+## 第五步：配置 rush.json(默认会自动生成一份配置)
 
 编辑 `rush.json` 文件，主要配置以下几个关键字段：
 
@@ -108,7 +108,7 @@ npm init -y
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    // 这里build是必须的，因为rush build会执行所有包里面的build命令，如果不需要构建，就可以写exit 0
+    // 这里build是必须的，因为rush build会执行所有包里面的build命令，如果不需要构建(例如单纯的js包)，就可以写exit 0
     "build": "exit 0",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -118,7 +118,7 @@ npm init -y
 }
 ```
 
-### 7.4 创建入口文件
+### 7.4 创建入口文件，对应main字段
 ```bash
 echo "module.exports = { hello: () => 'Hello from utils!' };" > index.js
 ```
@@ -173,6 +173,7 @@ echo "const utils = require('my-utils'); console.log(utils.hello());" > index.js
 {
   "projects": [
     {
+      // 对应package.json中的
       "packageName": "my-utils",
       "projectFolder": "packages/utils"
     },
