@@ -559,3 +559,24 @@ echo 'QNPM_AUTH_TOKEN=your-private-token-here' > .env
 }
 ```  
 发布命令还是之前的
+
+### 管理多个common/config/rush/version-policies.json  
+```json
+{
+    "definitionName": "lockStepVersion",
+    "policyName": "MyProject",
+    "version": "1.0.30",
+    "nextBump": "patch"
+  },
+  {
+    "definitionName": "lockStepVersion",
+    "policyName": "MyProject-MyProject-prerelease",
+    "version": "1.0.32-0",
+    "nextBump": "prerelease"
+  }
+```
+这里新展示一个prerelease的nextBump  
+执行rush version --bump --version-policy MyProject-prerelease  
+可以只改MyProject-prerelease的version，能够做到1.0.32-0  1.0.32-1 ……这种版本效果  
+--version-policy的意思是只改对应policyName的version  
+记得rush.json中versionPolicyName做对应的更改，否则rush version --bump --version-policy MyProject-prerelease指令应用不对包的package.json的version
